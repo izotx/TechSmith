@@ -11,7 +11,8 @@
 #import "SimpleCalculator.h"
 
 @interface ViewController()
-    @property SimpleCalculator* calculator;
+@property (weak) IBOutlet NSTextField *displayTextField;
+@property SimpleCalculator* calculator;
 @end
 
 @implementation ViewController
@@ -20,7 +21,7 @@
     NSLog(@" %@", [(NSButton *)sender title] );
    [_calculator addExpression:[sender title]];
     OperationResult * result =  _calculator.currentResult;
-    NSLog(@" %d", result.value);
+    _displayTextField.stringValue = result.textValue;
 }
 
 

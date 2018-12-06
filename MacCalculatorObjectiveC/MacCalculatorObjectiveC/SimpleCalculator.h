@@ -12,7 +12,8 @@
 @interface SimpleCalculator : NSObject
     -(void)addExpression:(NSString*)input;
     -(OperationResult*)evaluateCommand:(NSString *)command;
--(OperationResult*)calculate:(NSString *)operation first:(NSString*)first andSecond:(NSString*)second;
-
+    -(OperationResult*)calculate:(NSString *)operation first:(NSString*)first andSecond:(NSString*)second;
     @property OperationResult * currentResult;
+    @property NSString * lastOperation;
+
 @end
