@@ -10,11 +10,12 @@
 #import "OperationResult.h"
 
 @interface SimpleCalculator()
-    @property NSString * lastOperation;
+
     @property NSMutableString * firstNumber;
     @property NSMutableString * secondNumber;
+    @property NSMutableString * lastSecondNumber;
     @property BOOL firstNumberCompleted;
-    @property BOOL secondNumberCompleted;
+    //@property BOOL secondNumberCompleted;
 
 
     @property NSMutableArray * operations;
@@ -50,21 +51,15 @@
             
             if (!_firstNumberCompleted){
                 [_firstNumber  appendString:input];
-                result.value = _firstNumber.intValue;
+                result.value = _firstNumber.floatValue;
                 self.currentResult = result;
             }
-            else if(!_secondNumberCompleted){
+            else{
                 [_secondNumber appendString:input];
-                result.value = _secondNumber.intValue;
+                result.value = _secondNumber.floatValue;
                 result.error = NO;
                 result.message = @"";
                 self.currentResult = result;
-            }
-            else{//That's a case where both are completed
-                //add new digits
-                [self clearInput];
-                //Recursive call. Not very elegant
-                [self addExpression:input];
             }
         }
         else  if([_commands containsObject:input]){
@@ -72,39 +67,58 @@
              self.currentResult = [self evaluateCommand:input];
         }
     }
-
-
-
-
-    -(OperationResult*)evaluateCommand:(NSString *)command{
+//2 questions
+// what happens when user enter enter twice
+// keep repeating the same operation
+// what happens when user enters digits after enter
+// first number becomes result, so
+// if equal repeat previous operation
+// if any other sign
+// remember the sign
+// start typing another operation (resets the second number)
+//
+   -(OperationResult*)evaluateCommand:(NSString *)command{
         if([command isEqualToString:@"C"]){
             return [self clearInput];
         }
         else if([command isEqualToString:@"="]){
-            //Evaluate expression
-            self.secondNumberCompleted = true;
-            self.firstNumberCompleted = true;
+            
+            if(self.lastOperation){
+                
+                if(self.secondNumber.length > 0){
+                    self.currentResult  = [self calculate:self.lastOperation first:self.firstNumber andSecond:self.secondNumber];
+                }
+                else{
+                    self.currentResult  = [self calculate:self.lastOperation first:self.firstNumber andSecond:self.lastSecondNumber];
+                }
+               
+                if (self.secondNumber.length >0){
+                    self.lastSecondNumber = self.secondNumber;
+                    self.secondNumber = [NSMutableString new];
+                }
+                self.firstNumberCompleted = true;
+                self.firstNumber = [NSMutableString stringWithFormat:@"%f",self.currentResult.value];
 
-           return [self calculate:self.lastOperation first:self.firstNumber andSecond:self.secondNumber];
+                return self.currentResult;
+            }
+            else{
+                return self.currentResult;
+            }
         }
         else{
             _lastOperation = command;
             _firstNumberCompleted = true;
-            int val =  _secondNumber.length > 0 ? _secondNumber.intValue : _firstNumber.intValue;
-            OperationResult * result = [OperationResult new];
-            result.value = val;
-            result.error = NO;
-            result.message = @"";
+            self.firstNumber = [NSMutableString stringWithFormat:@"%f",self.currentResult.value];
             
-            return result;
+            return self.currentResult;
         }
         
     }
 
 #pragma mark TODO REFACTOR THAT. Perhaps in the separate classes conforming to MathCommand Protocol?
 -(OperationResult*)calculate:(NSString *)operation first:(NSString*)first andSecond:(NSString*)second{
-    int firstNumber = (first != nil)? first.intValue : 0;
-    int secondNumber = (second != nil)? second.intValue : 0;
+    float firstNumber = (first != nil)? first.floatValue : 0;
+    float secondNumber = (second != nil)? second.floatValue : 0;
     
     if ([operation isEqualToString:@"+"]){
         return [self addFirst:firstNumber secondNumber:secondNumber];
@@ -128,7 +142,7 @@
     }
 }
 
--(OperationResult *)addFirst:(int) first secondNumber:(int)second{
+-(OperationResult *)addFirst:(float) first secondNumber:(float)second{
     OperationResult * result = [OperationResult new];
     result.value = first + second;
     result.error = NO;
@@ -137,7 +151,7 @@
     return  result;
 }
 
--(OperationResult *)substractFirst:(int) first secondNumber:(int)second{
+-(OperationResult *)substractFirst:(float) first secondNumber:(float)second{
     OperationResult * result = [OperationResult new];
     result.value = first - second;
     result.error = NO;
@@ -146,7 +160,7 @@
     return  result;
 }
 
--(OperationResult *)multiplyFirst:(int) first secondNumber:(int)second{
+-(OperationResult *)multiplyFirst:(float) first secondNumber:(float)second{
     OperationResult * result = [OperationResult new];
     result.value = first * second;
     result.error = NO;
@@ -155,7 +169,7 @@
     return  result;
 }
 
--(OperationResult *)divideFirst:(int) first secondNumber:(int)second{
+-(OperationResult *)divideFirst:(float) first secondNumber:(float)second{
     OperationResult * result = [OperationResult new];
     if( second == 0)
     {
@@ -178,7 +192,6 @@
     _secondNumber = [NSMutableString new];
     _firstNumber = [NSMutableString new];
     _firstNumberCompleted = false;
-    _secondNumberCompleted = false;
     _lastOperation = nil;
     
     OperationResult * result = [OperationResult new];

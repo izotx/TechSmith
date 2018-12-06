@@ -10,4 +10,10 @@
 
 @implementation OperationResult
 
+
+-(NSString*) textValue{
+   
+    return [NSString stringWithFormat:@"%f",self.value];
+}
+
 @end

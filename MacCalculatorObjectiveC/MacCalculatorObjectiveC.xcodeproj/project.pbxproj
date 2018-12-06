@@ -16,8 +16,8 @@
 		4017C90421B0487500A237DF /* MacCalculatorObjectiveCUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017C90321B0487500A237DF /* MacCalculatorObjectiveCUITests.m */; };
 		4017C91621B0886300A237DF /* SimpleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017C91521B0886300A237DF /* SimpleCalculator.m */; };
 		4017C91921B0975400A237DF /* OperationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017C91821B0975400A237DF /* OperationResult.m */; };
-		409397D321B0DAA3006F49A7 /* SimpleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017C91521B0886300A237DF /* SimpleCalculator.m */; };
-		409397D421B0DC3C006F49A7 /* OperationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017C91821B0975400A237DF /* OperationResult.m */; };
+		779C6A7021B9C2150065C0C4 /* OperationResult.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017C91821B0975400A237DF /* OperationResult.m */; };
+		779C6A7121B9C2170065C0C4 /* SimpleCalculator.m in Sources */ = {isa = PBXBuildFile; fileRef = 4017C91521B0886300A237DF /* SimpleCalculator.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -284,9 +284,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				409397D421B0DC3C006F49A7 /* OperationResult.m in Sources */,
+				779C6A7021B9C2150065C0C4 /* OperationResult.m in Sources */,
 				4017C8F921B0487500A237DF /* MacCalculatorObjectiveCTests.m in Sources */,
-				409397D321B0DAA3006F49A7 /* SimpleCalculator.m in Sources */,
+				779C6A7121B9C2170065C0C4 /* SimpleCalculator.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

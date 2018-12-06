@@ -11,6 +11,7 @@
 @interface OperationResult : NSObject
     @property NSString * message;
     @property BOOL error;
-    @property int value;
+    @property float value;
+    @property (readonly) NSString * textValue;
 
 @end
